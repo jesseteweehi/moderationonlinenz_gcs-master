@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Data{% endblock %}
+
+{% block script %}
+<script>
+    
+    // Load the Visualization API and the piechart package.
+    google.charts.load('current', {'packages':['bar']});
+      
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var jsonData2018 = $.ajax({
+          url: "/schooladmin/data.json?year=2018",
+          dataType: "json",
+          async: false,
+          }).responseText;
+
+      var jsonData2017 = $.ajax({
+          url: "/schooladmin/data.json?year=2017",
+          dataType: "json",
+          async: false,
+          }).responseText;
+          
+      // Create our data table out of JSON data loaded from server.
+      var data2016 = new google.visualization.DataTable(jsonData2018);
+      var data2017 = new google.visualization.DataTable(jsonData2017);
+
+      var options = {
+          title: 'Data Completion',
+          height: 700,
+          legend: { position: 'top' },
+          chart: { title: 'Process Completion'},
+          bars: 'horizontal', // Required for Material Bar Charts.
+          axes: {
+            x: {
+              0: { side: 'top', label: 'No of Standards'} // Top x-axis.
+            }
+          },
+          bar: { groupWidth: "100%" },
+          animation: { duration : 1000, easing: "out", startup: true }
+        };
+
+      // Instantiate and draw our chart, passing in some options.
+      var chart = new google.charts.Bar(document.getElementById('chart_div_2018'));
+      chart.draw(data2018, options);
+
+      var chart = new google.charts.Bar(document.getElementById('chart_div_2017'));
+      chart.draw(data2017, options);
+
+
+    }
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container" style="margin-top:20px;">
+  <div class="row">
+    <div class="col-sm-12">
+
+
+      <h1>2018</h1>
+       <br>
+        <div id="chart_div_2018"><i class="fa fa-cog fa-spin fa-fw"></i> Loading...</div>
+
+       <h1>2017</h1>
+       <br>
+        <div id="chart_div_2017"><i class="fa fa-cog fa-spin fa-fw"></i> Loading...</div>
+
+
+    </div>
+  </div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
