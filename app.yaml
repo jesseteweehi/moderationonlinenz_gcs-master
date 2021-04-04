@@ -1,5 +1,5 @@
 application: moderationonlinenz
-version: schoolyearupdate
+version: update2021
 runtime: python27
 api_version: 1
 threadsafe: true
